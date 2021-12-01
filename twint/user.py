@@ -24,29 +24,84 @@ def User(ur):
         raise KeyError(msg)
     _usr = user()
     _usr.id = ur['data']['user']['rest_id']
-    _usr.name = ur['data']['user']['legacy']['name']
-    _usr.username = ur['data']['user']['legacy']['screen_name']
-    _usr.bio = ur['data']['user']['legacy']['description']
-    _usr.location = ur['data']['user']['legacy']['location']
-    _usr.url = ur['data']['user']['legacy']['url']
+    try:
+        _usr.name = ur['data']['user']['legacy']['name']
+    except:
+        _usr.name = ""
+    try:
+        _usr.username = ur['data']['user']['legacy']['screen_name']
+    except:
+        _usr.username = ""
+    try:
+        _usr.bio = ur['data']['user']['legacy']['description']
+    except:
+        _usr.bio = ""
+    try:
+        _usr.location = ur['data']['user']['legacy']['location']
+    except:
+        _usr.location = ""
+    try:
+        _usr.url = ur['data']['user']['legacy']['url']
+    except:
+        _usr.url = ""
+    # _usr.url = ur['data']['user']['legacy']['url']
     # parsing date to user-friendly format
-    _dt = ur['data']['user']['legacy']['created_at']
-    _dt = datetime.datetime.strptime(_dt, '%a %b %d %H:%M:%S %z %Y')
+    try:
+        _dt = ur['data']['user']['legacy']['created_at']
+    except:
+        _dt = ""
+    try:
+        _dt = datetime.datetime.strptime(_dt, '%a %b %d %H:%M:%S %z %Y')
+    except:
+        _dt = ""
     # date is of the format year,
-    _usr.join_date = _dt.strftime(User_formats['join_date'])
-    _usr.join_time = _dt.strftime(User_formats['join_time'])
+    try:
+        _usr.join_date = _dt.strftime(User_formats['join_date'])
+    except:
+        _usr.join_date = ""
+    try:
+        _usr.join_time = _dt.strftime(User_formats['join_time'])
+    except:
+        _usr.join_time = ""
 
     # :type `int`
-    _usr.tweets = int(ur['data']['user']['legacy']['statuses_count'])
-    _usr.following = int(ur['data']['user']['legacy']['friends_count'])
-    _usr.followers = int(ur['data']['user']['legacy']['followers_count'])
-    _usr.likes = int(ur['data']['user']['legacy']['favourites_count'])
-    _usr.media_count = int(ur['data']['user']['legacy']['media_count'])
+    try:
+        _usr.tweets = int(ur['data']['user']['legacy']['statuses_count'])
+    except:
+        _usr.tweets = int(0)
+    try:
+        _usr.following = int(ur['data']['user']['legacy']['friends_count'])
+    except:
+        _usr.following = int(0)
+    try:
+        _usr.followers = int(ur['data']['user']['legacy']['followers_count'])
+    except:
+        _usr.followers = int(0)
+    try:
+        _usr.likes = int(ur['data']['user']['legacy']['favourites_count'])
+    except:
+        _usr.likes = int(0)
+    try:
+        _usr.media_count = int(ur['data']['user']['legacy']['media_count'])
+    except:
+        _usr.media_count = int(0)
 
-    _usr.is_private = ur['data']['user']['legacy']['protected']
-    _usr.is_verified = ur['data']['user']['legacy']['verified']
-    _usr.avatar = ur['data']['user']['legacy']['profile_image_url_https']
-    _usr.background_image = ur['data']['user']['legacy']['profile_banner_url']
+    try:
+        _usr.is_private = ur['data']['user']['legacy']['protected']
+    except:
+        _usr.is_private = ""
+    try:
+        _usr.is_verified = ur['data']['user']['legacy']['verified']
+    except:
+        _usr.is_verified = ""
+    try:
+        _usr.avatar = ur['data']['user']['legacy']['profile_image_url_https']
+    except:
+        _usr.avatar = ""
+    try:
+        _usr.background_image = ur['data']['user']['legacy']['profile_banner_url']
+    except:
+        _usr.background_image = ""
     # TODO : future implementation
     # legacy_extended_profile is also available in some cases which can be used to get DOB of user
     return _usr
